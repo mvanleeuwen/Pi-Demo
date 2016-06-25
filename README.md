@@ -1,6 +1,6 @@
 # Pi-Demo
 ======================
-- Authors: Martijn van Leeuwen, Mano Biletsky
+- Authors: Martijn van Leeuwen
 - Twitter: [@RaspberryPiNL]
 - URL: [Website](http://www.voc-electronics.com)
 - Email: [Martijn van Leeuwen](mailto:info@voc-electronics.com)
