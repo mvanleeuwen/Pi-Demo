@@ -4,6 +4,31 @@
 __author__ = 'Martijn van Leeuwen'
 __email__ = 'info@voc-electronics.com'
 
+'''
+# =[ DISCLAIMER ]===============================================================
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+# ==============================================================================
+#
+#  App name: demo.py
+#
+#  Target system:  Linux
+#
+#  Description: Used to run the display presentation demo using a fully stacked
+#               breadboard with LEDS, Sensors and a Character display.
+#
+# ==============================================================================
+# Imports
+# ==============================================================================
+'''
+
 import time
 import RPi.GPIO as GPIO
 import datetime
