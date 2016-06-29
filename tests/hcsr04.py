@@ -31,7 +31,7 @@ while True:
   distance = pulse_duration * 17150        #Multiply pulse duration by 17150 to get distance
   distance = round(distance, 2)            #Round to two decimal points
 
-  if distance > 2 and distance < 400:      #Check whether the distance is within range
+  if 2 < distance < 400:      #Check whether the distance is within range
     print "Distance:",distance - 0.5,"cm"  #Print distance with 0.5 cm calibration
   else:
     print "Out Of Range"                   #display out of range

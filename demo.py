@@ -117,11 +117,12 @@ try:
 except Exception:
   print('Error %s', str(Exception.message))
   if mcp:
-    lcd.message('Error found:\n %s', str(Exception.message))
+    message = "Error found: \n" + str(Exception.message)
+    lcd.message(message)
 
 
 def readChannel(channel):
-  adc = spi.xfer2([1,(8+channel)<<4,0])
+  adc = spi.xfer2([1, (8 + channel) << 4, 0])
   data = ((adc[1]&3) << 8) + adc[2]
   return data
 
@@ -150,7 +151,7 @@ def get_lux_reading(results = 0):
 
 
 def test_bmp085():
-  temp = sensor.read_temperature())
+  temp = sensor.read_temperature()
   alti  = sensor.read_altitude()
   pres = sensor.read_sealevel_pressure()
   print('Temp = {0:0.2f} *C'.format(temp))
@@ -234,11 +235,11 @@ def activate_hc_sr04(distance = 0):
   distance = pulse_duration * 17150  # Multiply pulse duration by 17150 to get distance
   distance = round(distance, 2)  # Round to two decimal points
 
-  if distance > 2 and distance < 400:  # Check whether the distance is within range
+  if 2 < distance < 400:  # Check whether the distance is within range
     if DEBUG:
       print "Distance:", distance - 0.5, "cm"  # Print distance with 0.5 cm calibration
     else:
-      distance = distance - 0.5
+      distance -= 0.5
   else:
     if DEBUG:
       print "Out Of Range"  # display out of range
@@ -373,7 +374,7 @@ time.sleep(2)
 lcd.clear()
 lcd.home()
 # Main program loop.
-momvement_detected = False
+movement_detected = False
 
 '''
 The infinite loop
@@ -391,11 +392,11 @@ try:
   while True:
     time.sleep(SLEEPING_FOR)
     # Loop infinite and wake on movement detection
-    #ToDo: Fixup detecion loop.
+    #ToDo: Fixup detection loop.
     motion = activate_hc_sr04()
     if motion < 400:
       if MOTION_COUNT < 4:
-        MOTION_COUNT = MOTION_COUNT + 1
+        MOTION_COUNT += 1
       else:
         run_loop()
         MOTION_COUNT = 0
