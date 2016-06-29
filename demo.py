@@ -121,26 +121,27 @@ except Exception:
     lcd.message(message)
 
 
-def readChannel(channel):
-  adc = spi.xfer2([1, (8 + channel) << 4, 0])
-  data = ((adc[1]&3) << 8) + adc[2]
-  return data
+# Enable spi import if lower subroutine is required.
+#def readChannel(channel):
+#  adc = spi.xfer2([1, (8 + channel) << 4, 0])
+#  data = ((adc[1]&3) << 8) + adc[2]
+#  return data
 
 
 def print_mcp3008_readings():
   print('Reading MCP3008 values, press Ctrl-C to quit...')
-  print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} | {8:>4} |'.format(*range(9)))
+  print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} |'.format(*range(9)))
   print('-' * 64)
-  timer = 0
   for timer in range(1, 11):
     # Read all the ADC channel values in a list.
     values = [0]*9
-    for i in range(8):
+    for rangecounter in range(8):
         # The read_adc function will get the value of the specified channel (0-7).
-        values[i] = mcp.read_adc(i)
+        values[rangecounter] = mcp.read_adc(rangecounter)
     # Print the ADC values.
-    values[8] = readChannel(0)
-    print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} | {8:>4} |'.format(*values))
+#    values[8] = readChannel(0)
+#    print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} | {8:>4} |'.format(*values))
+    print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} |'.format(*values))
     # Pause for half a second.
     time.sleep(1)
 
@@ -159,10 +160,10 @@ def test_bmp085():
   print('Altitude = {0:0.2f} m'.format(alti))
   #print('Sealevel Pressure = {0:0.2f} Pa'.format())
   if lcd:
-    message = "Temp: {0:3.2f}\nPressure: {0:8.2f}\nAltitude: {0:0.2f} m".format(temp, pres, alti)
+    bericht = "Temp: {0:3.2f}\nPressure: {0:8.2f}\nAltitude: {0:0.2f} m".format(temp, pres, alti)
     lcd.clear()
     lcd.home()
-    lcd.message(message)
+    lcd.message(bericht)
     time.sleep(1)
 
 
@@ -311,13 +312,14 @@ if DEBUG:
   print('Gearing up.')
 message = 'Gearing up.'
 lcd.message(message)
-for i in range(lcd_columns-len(message)):
+for i in range(lcd_columns - len(message)):
     time.sleep(0.2)
     lcd.move_right()
-for i in range(lcd_columns-len(message)):
+for i in range(lcd_columns - len(message)):
     time.sleep(0.2)
     lcd.move_left()
 time.sleep(2.0)
+
 lcd.clear()
 lcd.home()
 message = 'Loading presets.'
@@ -331,6 +333,7 @@ for i in range(lcd_columns-len(message)):
     time.sleep(0.2)
     lcd.move_left()
 time.sleep(2.0)
+
 lcd.clear()
 lcd.home()
 try:
