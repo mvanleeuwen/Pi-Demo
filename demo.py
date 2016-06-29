@@ -150,12 +150,15 @@ def get_lux_reading(results = 0):
 
 
 def test_bmp085():
-  print('Temp = {0:0.2f} *C'.format(sensor.read_temperature()))
-  print('Pressure = {0:0.2f} Pa'.format(sensor.read_pressure()))
-  print('Altitude = {0:0.2f} m'.format(sensor.read_altitude()))
-  print('Sealevel Pressure = {0:0.2f} Pa'.format(sensor.read_sealevel_pressure()))
+  temp = sensor.read_temperature())
+  alti  = sensor.read_altitude()
+  pres = sensor.read_sealevel_pressure()
+  print('Temp = {0:0.2f} *C'.format(temp))
+  print('Pressure = {0:0.2f} Pa'.format(pres))
+  print('Altitude = {0:0.2f} m'.format(alti))
+  #print('Sealevel Pressure = {0:0.2f} Pa'.format())
   if lcd:
-    message = "Temp: {0:3.2f}\nPressure: {0:8.2f}\nAltitude: {0:0.2f} m".format(sensor.read_temperature(), sensor.read_pressure(), sensor.read_altitude())
+    message = "Temp: {0:3.2f}\nPressure: {0:8.2f}\nAltitude: {0:0.2f} m".format(temp, pres, alti)
     lcd.clear()
     lcd.home()
     lcd.message(message)
@@ -211,7 +214,11 @@ def activate_hc_sr04(distance = 0):
   pulse_start = 0
   if DEBUG:
     print('Activating HC-SR04')
-  lcd.message('Activating HC SR04.')
+  if lcd:
+    lcd.clear()
+    lcd.home()
+    lcd.message('Activating HC-SR04.')
+
   GPIO.output(TRIG, True)  # Set TRIG as HIGH
   time.sleep(0.00001)  # Delay of 0.00001 seconds
   GPIO.output(TRIG, False)  # Set TRIG as LOW
@@ -262,6 +269,24 @@ def get_pressure(pressure = 0):
       pass
 
   return pressure
+
+
+def get_altitude(alt = 0 ):
+  if sensor:
+    try:
+      alt = sensor.read_altitude()
+    except Exception:
+      alt = -1
+      pass
+
+  return alt
+
+
+def run_loop():
+  cur_temp = get_temp()
+  cur_pressure = get_pressure()
+  cur_lux = get_lux_reading()
+
 
 '''
 Start initialization routines.
@@ -341,7 +366,9 @@ test_bmp085()
 time.sleep(2)
 lcd.clear()
 lcd.home()
-lcd.message('All sensors initialized.')
+lcd.message('All sensors\n'
+            'initialized.\n'
+            'Play time!')
 time.sleep(2)
 lcd.clear()
 lcd.home()
@@ -364,6 +391,7 @@ try:
   while True:
     time.sleep(SLEEPING_FOR)
     # Loop infinite and wake on movement detection
+    #ToDo: Fixup detecion loop.
     motion = activate_hc_sr04()
     if motion < 400:
       if MOTION_COUNT < 4:
@@ -384,3 +412,6 @@ if DEBUG:
   lcd.clear()
   lcd.home()
   lcd.message('All done.')
+  time.sleep(2)
+  lcd.clear()
+  lcd.home()
